@@ -5,10 +5,10 @@ extension APIPostNewRequest: APIRequestHandler {
         return try request.content.decode(APIPostNewRequest.self)
             .flatMap { req in
                 // check existence
-                SVUser.findOrThrow(req.userID, on: request).transform(to: req)
+                SVUser.findOrThrow(req.user_id, on: request).transform(to: req)
             }
             .flatMap { req in
-                SVPost(id: nil, userID: req.userID, comment: req.comment, imageURL: req.imageURL).save(on: request)
+                SVPost(id: nil, userID: req.user_id, comment: req.comment, imageURL: req.image_url).save(on: request)
             }
             .transform(to: APIPostNewResponse())
     }

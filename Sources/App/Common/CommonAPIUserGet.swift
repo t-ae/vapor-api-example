@@ -14,9 +14,9 @@ public struct APIUserGetResponse: APIResponseProtocol, Codable {
     public var name: String
     public var email: String
     
-    public var posts: [Post]
+    public var posts: [APIPost]
     
-    public init(name: String, email: String, posts: [Post]) {
+    public init(name: String, email: String, posts: [APIPost]) {
         self.name = name
         self.email = email
         self.posts = posts

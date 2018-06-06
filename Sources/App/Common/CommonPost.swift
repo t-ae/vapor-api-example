@@ -1,11 +1,11 @@
 import Foundation
 
-public struct Post: Codable {
+public struct APIPost: Codable {
     public var comment: String
-    public var imageURL: URL
+    public var image_url: URL?
     
-    public init(comment: String, imageURL: URL) {
+    public init(comment: String, image_url: URL?) {
         self.comment = comment
-        self.imageURL = imageURL
+        self.image_url = image_url
     }
 }

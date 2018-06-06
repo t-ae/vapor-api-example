@@ -12,7 +12,7 @@ public struct DBPost: SQLiteModel, Timestampable, Migration {
     public var user_id: Int
     
     public var comment: String
-    public var image_url: String
+    public var image_url: String?
     
     public var created_at: Date?
     public var updated_at: Date?
@@ -20,7 +20,7 @@ public struct DBPost: SQLiteModel, Timestampable, Migration {
     public init(id: Int?,
                 user_id: Int,
                 comment: String,
-                image_url: String,
+                image_url: String?,
                 created_at: Date?,
                 updated_at: Date?) {
         self.id = id
@@ -38,7 +38,7 @@ public struct SVPost: SVModelProtocol {
     public var userID: Int
     
     public var comment: String
-    public var imageURL: URL
+    public var imageURL: URL?
     
     public var createdAt: Date?
     public var updatedAt: Date?
@@ -46,7 +46,7 @@ public struct SVPost: SVModelProtocol {
     public init(id: Int?,
                 userID: Int,
                 comment: String,
-                imageURL: URL,
+                imageURL: URL?,
                 createdAt: Date? = nil,
                 updatedAt: Date? = nil) {
         self.id = id
@@ -59,8 +59,14 @@ public struct SVPost: SVModelProtocol {
     
     public init(from db: DBPost) throws {
         
-        guard let imageURL = URL(string: db.image_url) else {
-            throw GenericError(message: "Malformed URL.")
+        let imageURL: URL?
+        if let url = db.image_url {
+            guard let temp = URL(string: url) else {
+                throw GenericError(message: "Malformed URL.")
+            }
+            imageURL = temp
+        } else {
+            imageURL = nil
         }
         
         self.init(id: db.id,
@@ -75,7 +81,7 @@ public struct SVPost: SVModelProtocol {
         return DBPost(id: id,
                       user_id: userID,
                       comment: comment,
-                      image_url: imageURL.absoluteString,
+                      image_url: imageURL?.absoluteString,
                       created_at: createdAt,
                       updated_at: updatedAt)
     }
@@ -89,8 +95,8 @@ extension SVPost {
     }
 }
 
-extension Post {
+extension APIPost {
     init(from sv: SVPost) {
-        self.init(comment: sv.comment, imageURL: sv.imageURL)
+        self.init(comment: sv.comment, image_url: sv.imageURL)
     }
 }

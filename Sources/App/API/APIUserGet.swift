@@ -8,7 +8,7 @@ extension APIUserGetRequest: APIRequestHandler {
             }
             .flatMap { user in
                 try SVPost.search(userID: user.id!, on: request).map { posts in
-                    APIUserGetResponse(name: user.userName, email: user.email, posts: posts.map(Post.init))
+                    APIUserGetResponse(name: user.userName, email: user.email, posts: posts.map(APIPost.init))
                 }
             }
     }
