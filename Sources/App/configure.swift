@@ -6,7 +6,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /// Register providers first
     try services.register(FluentSQLiteProvider())
     
-    let nioConfigService = NIOServerConfig.default(hostname: "0.0.0.0", port: 80)
+    let nioConfigService = NIOServerConfig.default(hostname: "0.0.0.0", port: 8080)
     services.register(nioConfigService)
 
     /// Register routes to the router
